@@ -8,12 +8,15 @@ export type Question = {
   question: string;
   type: string;
 };
+
 export type QuestionState = Question & { answers: string[] };
+
 export enum Difficulty {
   EASY = "easy",
   MEDIUM = "medium",
   HARD = "hard",
 }
+
 export const fetchQuizQuestions = async (
   amount: number,
   difficulty: Difficulty
@@ -22,21 +25,19 @@ export const fetchQuizQuestions = async (
   try {
     const response = await fetch(endpoint);
     if (!response.ok) {
-        throw new Error(`Error fetching questions: ${response.statusText}`);
+      throw new Error(`Error fetching questions: ${response.statusText}`);
     }
     const data = await response.json();
     return data.results.map((question: Question) => ({
-        ...question,
-        answers: ShuffleArray([
-            ...question.incorrect_answers,
-            question.correct_answer,
-        ]),
+      ...question,
+      answers: ShuffleArray([
+        ...question.incorrect_answers,
+        question.correct_answer,
+      ]),
     }));
-} catch (error) {
-    console.error('Error fetching quiz questions:', error);
-    // Handle error appropriately
+  } catch (error) {
+    console.error("Error fetching quiz questions:", error);
+
     return [];
-}
-
-
+  }
 };

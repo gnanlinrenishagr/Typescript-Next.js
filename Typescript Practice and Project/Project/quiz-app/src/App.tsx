@@ -2,12 +2,14 @@ import { useState } from "react";
 import QuestionCard from "./components/QuestionCard";
 import { Difficulty, fetchQuizQuestions, QuestionState } from "./API";
 import { GlobalStyle, Wrapper } from "./App.styles";
+
 export type AnswerObject = {
   question: string;
   answer: string;
   correct: boolean;
   correctAnswer: string;
 };
+
 const Total_Questions = 10;
 const App = () => {
   const [loading, setLoading] = useState(false);
@@ -20,19 +22,19 @@ const App = () => {
   const startQuiz = async () => {
     setLoading(true);
     setGameOver(false);
+
     const newQuestions = await fetchQuizQuestions(
       Total_Questions,
       Difficulty.EASY
     );
 
     setQuestions(newQuestions);
-    console.log(fetchQuizQuestions(Total_Questions, Difficulty.EASY));
-    console.log(questions);
     setScore(0);
     setUserAnswers([]);
     setNumber(0);
     setLoading(false);
   };
+
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!gameOver) {
       const answer = e.currentTarget.value;
@@ -47,6 +49,7 @@ const App = () => {
       setUserAnswers((prev) => [...prev, answerObject]);
     }
   };
+
   const nextQuestion = () => {
     const nextQuestion = number + 1;
     if (nextQuestion === Total_Questions) {
@@ -55,6 +58,7 @@ const App = () => {
       setNumber(nextQuestion);
     }
   };
+
   return (
     <>
       <GlobalStyle />
